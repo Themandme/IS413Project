@@ -9,8 +9,8 @@
 
     <FrameLayout
         android:id="@+id/paint"
-        android:layout_width="365dp"
-        android:layout_height="353dp"
+        android:layout_width="336dp"
+        android:layout_height="402dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -18,52 +18,33 @@
 
         <com.nex3z.fingerpaintview.FingerPaintView
             android:id="@+id/paintview"
-            android:layout_width="424dp"
-            android:layout_height="313dp">
+            android:layout_width="348dp"
+            android:layout_height="487dp"
+            android:background="#C7C1C1">
 
         </com.nex3z.fingerpaintview.FingerPaintView>
 
     </FrameLayout>
 
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:checkedButton="@id/Color1"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <RadioButton
-            android:id="@+id/Color1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Red" />
-
-        <RadioButton
-            android:id="@+id/Color2"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Blue" />
-
-        <RadioButton
-            android:id="@+id/Color3"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Green" />
-
-    </RadioGroup>
-
     <Button
         android:id="@+id/Clearbutton"
+        style="@style/Widget.AppCompat.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
         android:text="Clear"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.888"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+        tools:layout_editor_absoluteY="62dp" />
+
+    <Button
+        android:id="@+id/button"
+        style="@style/Widget.AppCompat.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="160dp"
+        android:text="Solve"
+        app:layout_constraintEnd_toStartOf="@+id/Clearbutton"
+        tools:layout_editor_absoluteY="62dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

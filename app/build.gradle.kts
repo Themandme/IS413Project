@@ -26,6 +26,9 @@ android {
             )
         }
     }
+    androidResources{
+        noCompress += "tfile"
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -36,6 +39,9 @@ android {
 }
 
 dependencies {
+    implementation(libs.tensorflow.lite)
+    implementation("org.tensorflow:tensorflow-lite:+")
+    implementation("org.tensorflow:tensorflow-lite-gpu:+")
 
     implementation(libs.appcompat)
     implementation(libs.material)
