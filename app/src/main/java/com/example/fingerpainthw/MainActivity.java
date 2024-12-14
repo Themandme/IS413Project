@@ -3,13 +3,12 @@ package com.example.fingerpainthw;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RadioButton;
+import android.widget.TextView;
+
 import org.tensorflow.lite.*;
 
 import androidx.activity.EdgeToEdge;
@@ -18,6 +17,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+
 import com.nex3z.fingerpaintview.FingerPaintView;
 
 import java.io.FileInputStream;
@@ -25,8 +25,6 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -38,13 +36,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button clear = findViewById(R.id.Clearbutton);
         Button solve = findViewById(R.id.button);
-
+        TextView tex = findViewById(R.id.textView);
 
         FingerPaintView canv = findViewById(R.id.paintview);
         solve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doInference(canv);
+                tex.setText(doInference(canv));
             }
         });
         clear.setOnClickListener(new View.OnClickListener() {
@@ -72,43 +70,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
     }
-    public float doInference(FingerPaintView val)
+    public String doInference(FingerPaintView val)
     {
 
-        Bitmap map = val.exportToBitmap();
-
-
+        Bitmap map = val.exportToBitmap(1, 10);
         //user input to float
         int width = map.getWidth();
         int height = map.getHeight();
-        ByteBuffer buff = ByteBuffer.allocate(width * height * 32);
-        buff.rewind();
+        ByteBuffer buff = ByteBuffer.allocate(3136);
         map.copyPixelsToBuffer(buff);
 
         int[] input = new int[width * height];
         byte[] bytes = buff.array();
-        map.getPixels(input, 0, width, 0, 0, width, map.  getHeight());
+        map.getPixels(input, 0, width, 0, 0, width, height);
         //float[] input1 = new float[input.length];
       //  for (int i = 0; i <= 255; i++){
         //    bytes[i] = (buff) input[i];
         //}
-        float[][] output = new float[1][32];
+        float[][] output = new float[1][10];
         try (Interpreter interpreter = new Interpreter(loadModelFile())){
-            int[] shape = interpreter.getInputTensor(0).shape();
-            width = shape[1];
-            height = shape[2];
-            int inputsize = 4 * width * height * 1;
+
+            //width = shape[1];
+            //height = shape[2];
+            //int inputsize = width * height * 32;
+            //interpreter.resizeInput(0, shape);
             //Map<String, Object> inputs2 = new HashMap<>();
             //inputs2.put("Inputs", input);
             //HashMap<String, Object> outputs = new HashMap<>();
 
             interpreter.run(buff, output);
-            float[] result = output[1];
-            interpreter.close();
+            String predi = "Prediction: " + output[0][1];
+            return predi;
+
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return output[1][1];
     }
     private MappedByteBuffer loadModelFile() throws IOException
     {
