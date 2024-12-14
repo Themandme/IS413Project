@@ -33,12 +33,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-
+        //Buttons for clearing and activating. Text for output
         Button clear = findViewById(R.id.Clearbutton);
         Button solve = findViewById(R.id.button);
         TextView tex = findViewById(R.id.textView);
-
+        //View for user paint input
         FingerPaintView canv = findViewById(R.id.paintview);
+        //listener to run machine learning model and update text
         solve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
