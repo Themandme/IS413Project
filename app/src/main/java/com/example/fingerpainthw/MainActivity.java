@@ -43,18 +43,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         solve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tex.setVisibility(View.VISIBLE);
                 tex.setText(doInference(canv));
             }
         });
         clear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                tex.setVisibility(View.INVISIBLE);
                 canv.clear();
             }
         });
 
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.intro), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
