@@ -76,35 +76,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public String doInference(FingerPaintView val)
     {
 
-        Bitmap map = val.exportToBitmap(1, 10);
+        Bitmap map = val.exportToBitmap(28, 28);
         //user input to float
         int width = map.getWidth();
         int height = map.getHeight();
+        //setting buffer allocation to match tensor capacity
         ByteBuffer buff = ByteBuffer.allocate(3136);
         map.copyPixelsToBuffer(buff);
 
         int[] input = new int[width * height];
         byte[] bytes = buff.array();
         map.getPixels(input, 0, width, 0, 0, width, height);
-        //float[] input1 = new float[input.length];
-      //  for (int i = 0; i <= 255; i++){
-        //    bytes[i] = (buff) input[i];
-        //}
         float[][] output = new float[1][10];
         try (Interpreter interpreter = new Interpreter(loadModelFile())){
-
-            //width = shape[1];
-            //height = shape[2];
-            //int inputsize = width * height * 32;
-            //interpreter.resizeInput(0, shape);
-            //Map<String, Object> inputs2 = new HashMap<>();
-            //inputs2.put("Inputs", input);
-            //HashMap<String, Object> outputs = new HashMap<>();
-
             interpreter.run(buff, output);
             String predi = "Prediction: " + output[0][1];
             return predi;
-
 
         } catch (IOException e) {
             throw new RuntimeException(e);
