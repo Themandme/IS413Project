@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     pred = output[0][i];
                 }
             }
-            String predi = "Prediction: " + pred + " " + output[0];
+            String predi = "Prediction: " + pred;
             return predi;
         } catch (IOException e) {
             throw new RuntimeException(e);
