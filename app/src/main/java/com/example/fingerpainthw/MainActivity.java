@@ -86,15 +86,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         map.copyPixelsToBuffer(buff);
         float[][] output = new float[1][10];
         try (Interpreter interpreter = new Interpreter(loadModelFile())){
+            interpreter.allocateTensors();
             interpreter.run(buff, output);
-            float pred = 0;
+            float pred = output[0][0];
             for (int i = 0; i <= 9; i++){
                 if (output[0][i] > pred){
                     pred = output[0][i];
                 }
             }
-            String predi = "Prediction: " + pred;
-            interpreter.close();
+            String predi = "Prediction: " + pred + " " + output[0];
             return predi;
         } catch (IOException e) {
             throw new RuntimeException(e);
