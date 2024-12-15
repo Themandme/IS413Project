@@ -80,20 +80,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //user input to float
         int width = map.getWidth();
         int height = map.getHeight();
-        //setting buffer allocation to match tensor capacity
+        //Setting buffer allocation to match tensor capacity
         ByteBuffer buff = ByteBuffer.allocate(4 * width * height);
 
         map.copyPixelsToBuffer(buff);
         float[][] output = new float[1][10];
+        //Creating interpreter class and loading in the machine learning files
         try (Interpreter interpreter = new Interpreter(loadModelFile())){
+            //Preparing to make the prediction
             interpreter.allocateTensors();
             interpreter.run(buff, output);
             float pred = output[0][0];
+            //Finding the most likely probability
             for (int i = 0; i <= 9; i++){
                 if (output[0][i] > pred){
                     pred = output[0][i];
                 }
             }
+            //Printing the final prediction onto the screen
             String predi = "Prediction: " + pred;
             return predi;
         } catch (IOException e) {
