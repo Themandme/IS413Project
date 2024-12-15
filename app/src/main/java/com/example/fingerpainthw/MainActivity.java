@@ -81,18 +81,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int width = map.getWidth();
         int height = map.getHeight();
         //setting buffer allocation to match tensor capacity
-        ByteBuffer buff = ByteBuffer.allocate(3136);
-        map.copyPixelsToBuffer(buff);
+        ByteBuffer buff = ByteBuffer.allocate(4 * width * height);
 
-        int[] input = new int[width * height];
-        byte[] bytes = buff.array();
-        map.getPixels(input, 0, width, 0, 0, width, height);
+        map.copyPixelsToBuffer(buff);
         float[][] output = new float[1][10];
         try (Interpreter interpreter = new Interpreter(loadModelFile())){
             interpreter.run(buff, output);
-            String predi = "Prediction: " + output[0][1];
+            float pred = 0;
+            for (int i = 0; i <= 9; i++){
+                if (output[0][i] > pred){
+                    pred = output[0][i];
+                }
+            }
+            String predi = "Prediction: " + pred;
+            interpreter.close();
             return predi;
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
